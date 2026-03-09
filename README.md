@@ -1,4 +1,66 @@
-# 🎯 HireIQ — AI-Powered Smart Hiring Platform
+# HireIQ — AI Hiring Platform
+
+Live app: https://robotinsighthireiq.netlify.app
+
+---
+
+I built this at Robot Insight Technologies because resume screening is genuinely broken. HR teams spend days going through resumes manually, and most of that time is wasted on candidates who clearly don't fit the role. HireIQ solves that — you upload resumes, describe what you need, and the AI scores and ranks every candidate in under a minute.
+
+---
+
+## What it does
+
+The app has two sides — one for HR and one for candidates.
+
+On the HR side, you fill in the job title, required skills, and a brief description of the role. You upload resumes — up to 10 at a time, any format. The AI reads each one, pulls out the relevant skills and experience, scores the candidate from 0 to 100 based on how well they match your requirements, and ranks everyone automatically. Once it's done, a full report lands in your inbox without you doing anything extra.
+
+On the candidate side, you fill in your details, list your skills, write a short summary of your background, and upload your resume. The AI evaluates your application, gives you a match score, tells you what's working in your profile and what's not, and sends the full feedback to your email.
+
+---
+
+## How I built it
+
+The core of the app is the Claude AI API. When a resume gets uploaded, the text is extracted in the browser using the File Reader API and sent to Claude along with the job requirements. Claude reads both, figures out the overlap, and returns a structured score and assessment. I chose Claude because it actually understands context — it does not just look for keyword matches, it reasons about whether the candidate's experience is genuinely relevant.
+
+For the emails I used EmailJS, which lets me send from the frontend without needing a backend server. Both the HR report and the candidate feedback get sent automatically once the AI finishes.
+
+The frontend is plain HTML, CSS, and JavaScript — no frameworks. I wanted to keep it lean and fast. The design uses Space Grotesk as the font and an emerald green color system. Hosted on Netlify, connected to GitHub so every push deploys automatically.
+
+---
+
+## Tech stack
+
+- Claude AI API — resume analysis and candidate scoring
+- Vanilla JavaScript — frontend logic and API integration
+- HTML and CSS — UI and layout
+- EmailJS — automated emails to HR and candidates
+- File Reader API — in-browser resume text extraction
+- Netlify — deployment and hosting
+- GitHub — version control
+
+---
+
+## Run it locally
+
+```bash
+git clone https://github.com/Manugupranay/hireiq.git
+cd hireiq
+open index.html
+```
+
+You will need your own Claude API key and EmailJS credentials. Update the values at the top of the script section in index.html.
+
+---
+
+## What I would add next
+
+The current version handles text-based resumes well. The next thing I want to tackle is better PDF parsing — right now if a PDF is heavily formatted or image-based, the text extraction is limited. I also want to add a way for HR to export the ranked results as a CSV, and eventually connect it to common ATS platforms.
+
+---
+
+Built by Pranay Bhaskar, Senior Developer at Robot Insight Technologies.
+
+If this is useful to you, a star on the repo goes a long way.
 
 > **Built at Robot Insight Technologies** by Pranay Bhaskar · Senior Developer
 

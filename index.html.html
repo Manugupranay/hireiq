@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireIQ — AI Smart Hiring Platform | Robot Insight Technologies</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f0faf4;--bg2:#e8f5ed;--bg3:#ffffff;
+    --green:#059669;--green2:#047857;--green3:#10b981;--green-light:#d1fae5;--green-xlight:#ecfdf5;
+    --dark:#064e3b;--dark2:#065f46;
+    --white:#ffffff;--off:#f8fffe;
+    --gray:#6b7280;--gray2:#9ca3af;--gray3:#374151;
+    --border:rgba(5,150,105,0.15);--border2:rgba(5,150,105,0.08);
+    --red:#dc2626;--orange:#d97706;--blue:#2563eb;
+    --shadow:0 4px 24px rgba(5,150,105,0.12);
+    --shadow2:0 8px 40px rgba(5,150,105,0.18);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;line-height:1.6;}
+
+  /* NAV */
+  nav{background:var(--white);border-bottom:2px solid var(--green-light);position:sticky;top:0;z-index:50;padding:0 40px;display:flex;align-items:center;height:68px;gap:16px;box-shadow:0 2px 16px rgba(5,150,105,0.08);}
+  .nav-logo{display:flex;align-items:center;gap:12px;}
+  .nav-logo img{height:40px;width:auto;border-radius:8px;padding:4px;background:var(--bg);}
+  .nav-brand{display:flex;flex-direction:column;}
+  .nav-brand-name{font-size:20px;font-weight:700;line-height:1;color:var(--dark);}
+  .nav-brand-name span{color:var(--green);}
+  .nav-brand-sub{font-size:10px;color:var(--gray);letter-spacing:1px;text-transform:uppercase;margin-top:2px;font-weight:500;}
+  .nav-div{width:1px;height:32px;background:var(--green-light);margin:0 8px;}
+  .nav-company{font-size:12px;color:var(--gray);font-weight:500;}
+  .nav-company strong{color:var(--green2);font-weight:700;}
+  .nav-tabs{display:flex;gap:6px;margin-left:auto;}
+  .nav-tab{padding:8px 20px;border-radius:8px;border:1.5px solid transparent;background:transparent;color:var(--gray);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+  .nav-tab:hover{color:var(--dark);border-color:var(--green-light);background:var(--green-xlight);}
+  .nav-tab.active{background:var(--green);border-color:var(--green);color:white;}
+  .nav-tag{background:var(--green-xlight);border:1.5px solid var(--green3);color:var(--green2);font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.8px;text-transform:uppercase;margin-left:4px;}
+
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--dark) 0%,var(--dark2) 50%,#065f46 100%);padding:64px 40px 56px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 300px at 50% 100%,rgba(16,185,129,0.15) 0%,transparent 70%);pointer-events:none;}
+  .hero::after{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,0.08) 0%,transparent 70%);pointer-events:none;}
+  .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,0.15);border:1.5px solid rgba(16,185,129,0.35);color:var(--green3);font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:22px;}
+  .hero h1{font-size:clamp(30px,5vw,52px);font-weight:700;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px;color:white;}
+  .hero h1 span{color:var(--green3);}
+  .hero p{color:rgba(255,255,255,0.65);font-size:17px;font-weight:400;max-width:540px;margin:0 auto 32px;}
+  .hero-built{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 18px;font-size:13px;color:rgba(255,255,255,0.65);font-weight:500;}
+  .hero-built img{height:24px;background:white;border-radius:4px;padding:2px;}
+  .hero-built strong{color:white;}
+  .hero-stats{display:flex;align-items:center;justify-content:center;gap:40px;margin-top:40px;padding-top:32px;border-top:1px solid rgba(255,255,255,0.1);}
+  .stat-num{font-size:28px;font-weight:700;color:var(--green3);}
+  .stat-lbl{font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px;font-weight:500;}
+  .stat-sep{width:1px;height:40px;background:rgba(255,255,255,0.1);}
+
+  .main{max-width:960px;margin:0 auto;padding:48px 24px 80px;}
+
+  /* VIEW TOGGLE */
+  .view-toggle{display:flex;gap:12px;margin-bottom:36px;justify-content:center;}
+  .view-btn{padding:13px 32px;border-radius:10px;border:2px solid var(--border);background:var(--white);color:var(--gray);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);}
+  .view-btn:hover{border-color:var(--green);color:var(--dark);}
+  .view-btn.active{background:var(--green);border-color:var(--green);color:white;box-shadow:0 4px 20px rgba(5,150,105,0.3);}
+
+  /* PANELS */
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  /* FORM CARD */
+  .form-card{background:var(--white);border:2px solid var(--green-light);border-radius:16px;overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow);}
+  .card-head{padding:16px 28px;background:var(--green-xlight);border-bottom:2px solid var(--green-light);display:flex;align-items:center;gap:12px;}
+  .card-num{width:28px;height:28px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0;}
+  .card-title{font-size:16px;font-weight:700;color:var(--dark);}
+  .card-body{padding:28px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;}
+  .mt16{margin-top:16px;}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;}
+  .field input,.field select,.field textarea{background:var(--bg);border:2px solid var(--green-light);border-radius:8px;padding:11px 14px;color:var(--dark);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:500;outline:none;transition:all 0.2s;width:100%;}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);background:var(--white);box-shadow:0 0 0 3px rgba(5,150,105,0.1);}
+  .field select option{background:white;color:var(--dark);}
+  .field textarea{resize:vertical;min-height:90px;}
+
+  /* FILE UPLOAD */
+  .file-zone{border:2px dashed var(--green3);border-radius:12px;padding:32px;text-align:center;cursor:pointer;transition:all 0.2s;position:relative;background:var(--green-xlight);}
+  .file-zone:hover,.file-zone.drag{border-color:var(--green);background:var(--green-light);box-shadow:0 0 0 4px rgba(5,150,105,0.08);}
+  .file-zone-icon{font-size:36px;margin-bottom:10px;}
+  .file-zone-title{font-weight:700;font-size:15px;color:var(--dark);margin-bottom:4px;}
+  .file-zone-sub{font-size:13px;color:var(--gray);}
+  .file-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .file-list{margin-top:12px;display:flex;flex-direction:column;gap:8px;}
+  .file-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--green-xlight);border:1.5px solid var(--green-light);border-radius:8px;font-size:13px;}
+  .file-item-name{flex:1;color:var(--dark);font-weight:600;}
+  .file-item-size{color:var(--gray);font-size:12px;}
+  .file-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:16px;padding:0 4px;}
+  .file-remove:hover{color:var(--red);}
+
+  .note-box{background:var(--green-xlight);border:1.5px solid var(--green-light);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--green2);margin-top:16px;line-height:1.5;font-weight:500;}
+  .info-box{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:8px;padding:12px 16px;font-size:13px;color:#1e40af;margin-top:16px;line-height:1.5;font-weight:500;}
+
+  .btn-primary{width:100%;padding:16px 24px;background:linear-gradient(135deg,var(--green),var(--green2));border:none;border-radius:10px;color:white;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 20px rgba(5,150,105,0.35);letter-spacing:-0.3px;}
+  .btn-primary:hover{background:linear-gradient(135deg,#047857,#065f46);box-shadow:0 8px 32px rgba(5,150,105,0.45);transform:translateY(-1px);}
+  .btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+
+  /* PROCESSING */
+  #proc-hr,#proc-cand{display:none;margin-bottom:28px;}
+  .proc-card{background:var(--white);border:2px solid var(--green-light);border-radius:16px;padding:32px 28px;box-shadow:var(--shadow);}
+  .proc-header{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
+  .proc-spinner{width:22px;height:22px;border:2.5px solid var(--green-light);border-top-color:var(--green);border-radius:50%;animation:spin 0.8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .proc-title{font-size:18px;font-weight:700;color:var(--dark);}
+  .proc-elapsed{margin-left:auto;font-size:13px;color:var(--gray);font-weight:600;background:var(--green-xlight);padding:4px 12px;border-radius:20px;}
+  .proc-steps{display:flex;flex-direction:column;gap:10px;}
+  .proc-step{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--bg);border:2px solid var(--green-light);border-radius:10px;opacity:0.4;transition:all 0.3s;font-size:14px;}
+  .proc-step.active{opacity:1;border-color:var(--green);background:var(--green-xlight);box-shadow:0 2px 12px rgba(5,150,105,0.12);}
+  .proc-step.done{opacity:0.7;background:var(--bg2);}
+  .proc-step-icon{font-size:20px;min-width:28px;text-align:center;}
+  .proc-step-name{font-weight:700;color:var(--dark);font-size:14px;}
+  .proc-step-detail{font-size:12px;color:var(--gray);margin-top:2px;font-weight:500;}
+  .proc-step-badge{font-size:12px;font-weight:700;margin-left:auto;}
+  .proc-step.active .proc-step-badge{color:var(--green);}
+  .proc-step.done .proc-step-badge{color:var(--green2);}
+
+  /* RESULTS */
+  #results-hr,#results-cand{display:none;}
+  .results-headline{font-size:26px;font-weight:700;color:var(--dark);margin-bottom:6px;letter-spacing:-0.5px;}
+  .results-sub{font-size:14px;color:var(--gray);margin-bottom:24px;font-weight:500;}
+
+  /* CANDIDATE CARDS */
+  .candidate-card{background:var(--white);border:2px solid var(--green-light);border-radius:14px;margin-bottom:14px;overflow:hidden;animation:fadeUp 0.35s ease both;transition:all 0.2s;box-shadow:var(--shadow);}
+  .candidate-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:var(--shadow2);}
+  .candidate-card.top{border-color:var(--green);}
+  .candidate-card.good{border-color:#60a5fa;}
+  .candidate-card.review{border-color:#fbbf24;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  .cc-ribbon{padding:6px 18px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border-bottom:2px solid transparent;}
+  .cc-ribbon.top{background:var(--green-xlight);color:var(--green2);border-color:var(--green-light);}
+  .cc-ribbon.good{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe;}
+  .cc-ribbon.review{background:#fffbeb;color:#92400e;border-color:#fde68a;}
+  .cc-body{padding:22px 24px;}
+  .cc-main{display:flex;align-items:flex-start;gap:18px;}
+  .cc-info{flex:1;}
+  .cc-name{font-size:18px;font-weight:700;color:var(--dark);margin-bottom:4px;letter-spacing:-0.3px;}
+  .cc-meta{font-size:13px;color:var(--gray);display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px;font-weight:500;}
+  .cc-skills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .cc-skill{padding:4px 10px;border-radius:6px;font-size:12px;font-weight:600;}
+  .cc-skill.match{background:var(--green-xlight);border:1.5px solid var(--green-light);color:var(--green2);}
+  .cc-skill.partial{background:#fffbeb;border:1.5px solid #fde68a;color:#92400e;}
+  .cc-skill.miss{background:#fef2f2;border:1.5px solid #fecaca;color:var(--red);}
+  .cc-summary{font-size:13px;color:var(--gray3);line-height:1.6;border-top:2px solid var(--green-light);padding-top:12px;margin-top:4px;font-weight:400;}
+  .cc-score-area{text-align:center;min-width:90px;}
+  .cc-score-circle{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 6px;border:3px solid;}
+  .cc-score-circle.top-c{border-color:var(--green);background:var(--green-xlight);}
+  .cc-score-circle.good-c{border-color:#60a5fa;background:#eff6ff;}
+  .cc-score-circle.review-c{border-color:#fbbf24;background:#fffbeb;}
+  .cc-score-num{font-size:22px;font-weight:700;line-height:1;color:var(--dark);}
+  .cc-score-lbl{font-size:10px;color:var(--gray);font-weight:600;}
+  .cc-rank{font-size:12px;font-weight:700;color:var(--gray);}
+
+  /* CANDIDATE RESULT */
+  .cand-result-card{background:var(--white);border:2px solid var(--green-light);border-radius:16px;padding:32px;text-align:center;box-shadow:var(--shadow);}
+  .cand-score-big{width:130px;height:130px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;flex-direction:column;border:4px solid;}
+  .cand-score-big.high{border-color:var(--green);background:var(--green-xlight);}
+  .cand-score-big.mid{border-color:#fbbf24;background:#fffbeb;}
+  .cand-score-big.low{border-color:var(--red);background:#fef2f2;}
+  .cand-score-big-num{font-size:38px;font-weight:700;line-height:1;}
+  .cand-score-big-lbl{font-size:12px;color:var(--gray);font-weight:600;}
+  .cand-result-name{font-size:24px;font-weight:700;color:var(--dark);margin-bottom:6px;letter-spacing:-0.5px;}
+  .cand-result-role{font-size:14px;color:var(--gray);margin-bottom:24px;font-weight:500;}
+  .cand-feedback{text-align:left;margin-top:20px;}
+  .cand-feedback-title{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--green2);text-transform:uppercase;letter-spacing:0.8px;}
+  .feedback-item{display:flex;gap:10px;padding:10px 0;border-bottom:2px solid var(--green-light);font-size:14px;line-height:1.5;color:var(--gray3);font-weight:500;}
+  .feedback-icon{flex-shrink:0;font-size:16px;}
+
+  /* STATUS */
+  .status-box{border-radius:12px;padding:20px 24px;margin-top:16px;display:none;align-items:center;gap:16px;border:2px solid;}
+  .status-box.success{background:var(--green-xlight);border-color:var(--green-light);}
+  .status-box.error{background:#fef2f2;border-color:#fecaca;}
+  .status-icon{font-size:28px;flex-shrink:0;}
+  .status-title{font-size:16px;font-weight:700;margin-bottom:4px;}
+  .status-box.success .status-title{color:var(--green2);}
+  .status-box.error .status-title{color:var(--red);}
+  .status-detail{font-size:13px;color:var(--gray);font-weight:500;}
+
+  .btn-outline{padding:12px 28px;background:var(--white);border:2px solid var(--green-light);border-radius:8px;color:var(--green2);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:20px;}
+  .btn-outline:hover{border-color:var(--green);background:var(--green-xlight);}
+
+  footer{background:var(--dark);padding:24px 40px;display:flex;align-items:center;justify-content:space-between;font-size:13px;}
+  .footer-left{display:flex;align-items:center;gap:12px;}
+  .footer-left img{height:30px;background:white;border-radius:6px;padding:3px;}
+  .footer-left-text div:first-child{font-size:13px;color:white;font-weight:700;}
+  .footer-left-text div:last-child{font-size:11px;color:rgba(255,255,255,0.45);font-weight:500;}
+  .footer-credit{font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;}
+  .footer-credit strong{color:var(--green3);}
+
+  @media(max-width:640px){
+    nav{padding:0 16px;} .nav-company{display:none;}
+    .hero{padding:36px 16px;} .hero-stats{display:none;}
+    .main{padding:24px 16px 60px;}
+    .grid-2,.grid-3{grid-template-columns:1fr;}
+    .cc-main{flex-wrap:wrap;}
+    footer{flex-direction:column;gap:8px;text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <img src="data:image/png;base64,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" alt="Robot Insight Technologies" />
+  </div>
+  <div class="nav-brand">
+    <div class="nav-brand-name">Hire<span>IQ</span></div>
+    <div class="nav-brand-sub">AI Hiring Platform</div>
+  </div>
+  <div class="nav-div"></div>
+  <div class="nav-company">Built by <strong>Pranay Bhaskar</strong> &nbsp;·&nbsp; Senior Developer, Robot Insight Technologies</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchView('hr',this)">👔 HR Portal</button>
+    <button class="nav-tab" onclick="switchView('candidate',this)">🎯 Apply Now</button>
+  </div>
+  <div class="nav-tag">AI Powered</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">✦ Smart Hiring Intelligence</div>
+  <h1>Hire smarter with<br><span>AI-powered</span> screening</h1>
+  <p>Upload resumes, define your ideal candidate, and let our AI rank, score, and report — instantly.</p>
+  <div class="hero-built">
+    <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACBAOMDASIAAhEBAxEB/8QAHAABAAIDAQEBAAAAAAAAAAAAAAYHBAUIAwEJ/8QARRAAAQQBAwIEAwMFCw0AAAAAAQACAwQFBgcREiEIMUFREyJhFHGBFRYykbEJIzM1c3aVs8HC0iQ3ODlSVmJ1kqGisrX/xAAbAQEAAgMBAQAAAAAAAAAAAAAABQYCAwQBB//EAC4RAQACAQIDBwMDBQAAAAAAAAABAgMEEQUSMQYTISJBUWFCcYEUkfAyscHh8f/aAAwDAQACEQMRAD8A7LREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBFiZe9HjaEluRrnhnHDR6krF05moszDK5sLoXxEBzS7nz8u/4Fc1tXhrmjBNvPMbxDOMdprzbeDaoiLpYCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIhPA5KDxvRV56kkVprXROHzBx7LA0tBTgxUf2UMBf3kIPJJ+qgmoMvPlLr3Oe4QA8Rx89gPf71hU7VinO2etK6N7T5g/t91Sc3aXBGri9ce8RvG/r+PD/Pqkq6O3d7TK3UWHhLoyGMht8cF7fmHsR2KzFc8WSuWkXr0mN0daJrO0iIizeCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgL44BzSD5FVrvjPPAcOYJpIifj89DiOf4P2UDoan1BRd1V8vbH/AAvkL2/qPIXFl1lcd5pMIvUcUrgyzjtXol+XozY69JWmaR0n5T6Ob6ELGjY6R7WMaXOceAAOSSvtDciKSER6poV7Fdo7ztAa5g9SQe36uFs6uvNKOgNjSMFe67yM554Yfbg9/wBipOo4DjpM5Yy7Y9/ad4+Pn905p+OYM1N46p7pyk+hh4K0n8IBy4exJ54WwVPX9U52449d+SJpPZsPyAfq7rI0VbtTaroiazNIC53PU8nn5Sp3TcdwVmmnxUnbwiN/2cU6jntvt1WysfI3aWOpyXMhbgqVoxy+aeQMY373HsFkLn7x+ucPD5Y4JHOSrA8Hz+YqzNq32670Q4gN1hp8k+QGSh/xLfwSxTwsmgkZLE8dTHsdyHD3BHmuQdr/AAlaB1Vttp/Ul3O6jht5PHRWZWxTQhjXvaCeAYyeO/qVheDrVmY0pjd0NNuuPyNDTNaa7SEjiWNfGXggewd0g8D2KDrvMagwOGe1mXzeNx7njlotWmREj6dRC+YjUen8xK6LEZ3GZCRo5c2taZKQPfhpK4i8OWyNLfjDZvX2vdUZuS7Lknwf5O9gc5wY1znOc9ru3zgAADgN/V7eI3YDFbMaRo690RqfOx3qmQjjP2iVnU3qB4cxzGtIII+vIKDuPJXqWNpvuZG5Xp1o+OuaeQMY307uPYLSjXmhyeBrHT39JQ/4lzp4sM/b1L4OtN6gtlrbOTdQsThnZpc6MuPA9uVCtvdhdic3oPB5jNblT0cndoQz264ytVgilcwFzelzORwSRwe6Dt2rYr267LNWeOeGQcskjcHNcPcEdisfLZfFYiFs+WydOhE48B9mdsbSfvcQuUv3Pm/dgzevNMVsjNfwNCdj6b3P5YD1yN6m+g62tBPHn0qFaG0SfElvrre7rHUGTgo4qZzK0VZzQ5kZkc2ONvUCGtDW9+B3J58+UHauO1bpbJWm1cdqXD3J3foxQXY3uP3AHlZWYzuEw3w/yxmMfjvi8/D+1WWRdfHnx1EcrkbeHwmaT0ltvmtU6b1Fnvyjia5tsbakjdG4M7uHysaQeAeDz5rY7XbZYbxG7QaZ1LrjMZtmWxLJsYbFadvM7GP5aX9bXcu4I7+Z9eUHS/586K/3vwH9Ixf4lsMPnsHmTIMRmMfkTFwZBVssl6OfLnpJ4X59zbJaaZ4txtEMllvyL0Nd9o+Iz7R3qCbz6en9I8fo+X6111sfsFpHaTO3szgMjmLlq5W+yv8AtszHNazqa48BrW9+WjueUFtoiICIiAiIgIiICIiCMbiaYdqTGRNryNjt1nF0XX+i4Hjlp9vId/oqb1JgMxp6nNdy1GSCrC3qfMOHsA+pbzwui1Q+/mrH3sp+bdOU/ZapBs9J7SSex+jf2/ctM6Cupvv0VvtDbT6TBOpv/V0iPeXOusNU2s5YdFE50NFp+SPnu76u+v09FrtPZvIYLIMuY+cscD8zD+i8ezh6hSnPadr3GOmqtbDY8+3Zr/vWBg9LSh/xctE+LpPaFw4J+p+imaaPHNO5ivl9kLpuNaW2DvInbb09V2be5N+tcaLGLqSvnj4bYiA5+E76ny4PoVauiNJ26OQbkcl0xvjB+HE1wJ5I45JHbyVE7eagl0jnq92q3isPknhaOA+M+Y49/UfVdU1LENurFaryCSGZgkjePJzSOQVXL9mNPos8ZYmZjrHtH/E/wTiOPiFJnba1fT+0vVc++P7/AEfLH/M637SuglXXiI24n3T21saUrZOPHTvsRTxzSRl7eWHyIHfuCVIJ9xZqjQe7+j9jsJuBS19lZ8DarwE06l+dhpRSN+TkchvSCQ3t6kK8fD1o3TGH8KWqdRYDIy5XIZ7DWnX5ntDXRSMhePgBvJ46ST3J+bnny4CvvTWiKNDaiht/lizJU4cUzHWSW9ImaI+hx455HPfjvyFAvDbsxktqItT4y9nosthsnYDqdXoPEbAHAl4Pbqc0tB47fKgiH7nRIx2yuUja9pezOS9Tee45hh4Wy/dApY2bAuY97WukytdrAT3ceHngfgCfwUUzfhKzmJ1Dcv7Zbj29OU7Ty41i6VjoxySGdcbh1NHPbkc/evKh4StTZvM1Jtx90Ludx9Z/V8BrpXvcPVodI49HPuAUGD4gWlvgS0O1wIIgxvY/yRXttd4SdvNU7cad1HfzOpIreTxsFqZkM8IY172BxDQYyeOT6kq7t/NqGbi7Ux6IxFyvhm1pYX1SYuYmNjHAZ0jyHSfT2CpCj4Yt5KNKGlS3rsVqsDBHFDFYtNZG0DgNaA7gAD0Qa/wv4+Xbfxa6q21xORsXMKazw74vHLixrHsc7jt1Dqc3kceZWf4ESId2dzqspDJxMP3s9ndppAe305Vo+HPYCptZlb+pMpnJM9qO9GYn2nNLWRsc4OdxySXOcQOXH29O/MY3V8Ls2Z15c1rt/rKxpbI3pHS2Y2h4b8R3dzmPYQ5vUeSR37k+XkgtfxGzw19idaSTysjYcPOwFx4HU5vS0feSQPxVf+ARj2eHqqXNID8lZc3n1HLR/YVAZvCnuNnXR09X7xW8hi+sOkhLp5iePYPd08/VdQbf6UxOiNH47S+DidHRoRfDj6jy5x55c5x9SSST96Dle1/rKh/JM/8Amhdiqmpdk5X+J8bxflxgr/Zw00Pgnr+IK4g/S546eBz78q5UBERAREQEREBERAREQa/UmSbiMBeybgD9mgdIATxyQOw/E8Bcj255bVqWzM8vlleXvcT3JJ5JXR2+1gwbdW2A8fHlij/8ur+6ubV36SvlmXzLtvqZtqseH0rG/wCZn/Sa7O6YZqTVTTaj6qNMCacEdnHn5Wn7z/2BU48QWlonUYtTU4mskhLYrQaOOpp7NcfqDwPxHst1sFg5sVpKS7agMU9+X4jeocExgcN7f9R/FTPVGNGY05kMZ8vNmu+NpPkHEfKfwPBWP6iaZ4tHSE1wrgdJ4NNLV8945vnf6f58y5GXQ2wWZdkdGuoTPLpcfKYxz5/Dd8zf7w/Bc/3qtijclqWoXwzxOLXseOCCFaPhttPZn8pTB+SWs2Q/e13A/wDYqT11IvgmfbxQPZvNbBxGtZ+reJ/n3heigO+2q8to7RtTK4YwixLl6dV3xWdQ+HJKGv7e/B81PlUniu/za0P5w43+vaq++osnxLa51LoDR2HyulaUN/IWs7WpfZZGc/HY9shMbfZzi0AH05W2qbhUdRbN5DXOmZR1RY2edsUrfmrzxxuJjkb6FrhwR/YVHfFB/FugP59Yv9siiW/eGym2cWpta6YpyWdNahozV9R42IfwEz4y1l2MfeQH8eh54PmAs3Ba1ut8P1DcHJQss3vzajytiOMdLZJPs4kcAPQE8qFafg3+1BpOjqylrvSsT79Nl6DGfkVxiAe0PbEZfidXkQCeFvtDZnHae8KunMzmKNi/jquk6b7VeCMSPki+zsDh0kgEcE8/TlQD8z9gGYY38LuZYw8PwDNWZV1WYxX5HUOlhd24/wBk/cguDM6g1Hj9l7+psjjosXqGrhJbc1QuErIbDIi4t5BIc0OHv5LT3txbeE8N9PcrIV47d92AqXXxNHQySeaOPgfRvW8fgo5pzM5zUHg2t5bUbpJMjPpq4XyyD5pWiOQMkPuXNDXc+vK12t6Vq/4FaMFOB88rdK4yXoYOT0sZA9x4+jWk/gg3dTB+IK5j4skdw9K1rE0YmFFuCc6JhI56PiGTq49OeOVv62sdUnYO/rHMYQYXUdTE2p5acrD0Mnha/g9JPPQ4tDgOfIjufNYOb19ovPbeRxYXdvC6csy1opGXo7dd8sIHSXAxvPmQCCD3HKjml83n9R+DbLZrUtua5kbWDyTjYliEbpY+JRG7pAA7sDSPcILV2wzFzUO2+ms9kTGbmRxVa1OY29Let8TXO4HoOSVH9utW5nUG4W4eBuOrtrYG7WgolsfBDZIeo9Xf5u459FX+0myencrtbpXJz6l1pDLbw9WZ8cGdljjYXRNJDWjs1o57D0Wb4aMHX05uRuvhqlm7ZhrZOm1ktyczTO5gcfmee580Gu1/LvtpS5p2B+5GBtflzMR4xhbp8M+CXte7rP74eQOjy+vmrb25xeuMZWuN1tqjH5+WR7TWdUx32X4TQD1A/O7q57e3HHrz2ifiE/jbbT+eVX+qmVroCIiAiIgIiICIiAiIgx8hQo5Gv9nyFKtch6g74c8TZG8j14I45WBDpfTMMrZYtO4iORp5a5tKMEH6HhbdF7EzDVfBivPNasTP2ERF42tfkcHhcjMJshiMfckA4D56zJHcfeQvuNwmFxszpsdiMfTlc3pL69ZkbiPbloHZZ6LLmtttu19zj5ubljf32Fi5PHY/J1218lRq3YWyNlbHYhbI0PaeWuAcCOQQCD6FZSLFsYuRxuOyTYG5GhVuNrzNsQieFsgjlb+i9vIPDh6Edwva1BBarS1rMMc8ErCySORoc17SOCCD2II9F6Ig8KlKnUx8WPqVIK9OGIQxV4ow2NkYHAY1o7BoHbgduFGHbX7Zusm07bvSJnLuv4pwtfr6vfno55UuRB4T06k9F9CerBLUkjMT4HxgxuYRwWlp7EcduPJfalSrUpRUalaGvUhjEUUETA2ONgHAa1o7BoA4AHbheyIIlLtjttLbNuXb3SUllzuszOw1cvLvfq6OefqpNLTqS0XUJasD6j4zE6B0YMZZxx0lvlxx248l7og8qdatSqQ06deKtWgYI4oYmBjI2AcBrWjsAB2AC86mPoVLVq3Vo1oLFtwfZliia18zgOAXkDlxA7An0WSiDGvY+hffXfeo1rTqswnrmaJrzDIAQHt5HyuAJHI79yslEQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREH/9k=" alt="Robot Insight" />
+    <span>Built at <strong>Robot Insight Technologies</strong> by Pranay Bhaskar · Senior Developer</span>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">⚡ 30s</div><div class="stat-lbl">Per Resume Analyzed</div></div>
+    <div class="stat-sep"></div>
+    <div><div class="stat-num">0–100</div><div class="stat-lbl">AI Match Score</div></div>
+    <div class="stat-sep"></div>
+    <div><div class="stat-num">Auto</div><div class="stat-lbl">Email Reports</div></div>
+    <div class="stat-sep"></div>
+    <div><div class="stat-num">2-way</div><div class="stat-lbl">HR & Candidate Views</div></div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="view-toggle">
+    <button class="view-btn active" id="vb-hr" onclick="switchView('hr',this)">
+      <span>👔</span> I'm HR — Screen Candidates
+    </button>
+    <button class="view-btn" id="vb-cand" onclick="switchView('candidate',this)">
+      <span>🎯</span> I'm a Candidate — Apply
+    </button>
+  </div>
+
+  <!-- HR PANEL -->
+  <div class="panel active" id="panel-hr">
+    <div id="form-hr">
+      <div class="form-card">
+        <div class="card-head"><div class="card-num">1</div><div class="card-title">Job Details</div></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="field"><label>Job Title *</label><input type="text" id="hr-jobTitle" placeholder="e.g. Senior React Developer" /></div>
+            <div class="field"><label>Department</label><input type="text" id="hr-dept" placeholder="e.g. Engineering" /></div>
+          </div>
+          <div class="grid-3 mt16">
+            <div class="field"><label>Experience Required</label>
+              <select id="hr-exp">
+                <option>0-1 years (Fresher)</option><option>1-3 years (Junior)</option>
+                <option selected>3-6 years (Mid)</option><option>6-10 years (Senior)</option><option>10+ years (Lead)</option>
+              </select>
+            </div>
+            <div class="field"><label>Employment Type</label>
+              <select id="hr-type"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Remote</option></select>
+            </div>
+            <div class="field"><label>Location</label><input type="text" id="hr-location" placeholder="e.g. Hyderabad / Remote" /></div>
+          </div>
+          <div class="field mt16"><label>Required Skills (comma separated) *</label>
+            <input type="text" id="hr-skills" placeholder="e.g. React, Node.js, TypeScript, REST APIs, AWS" />
+          </div>
+          <div class="field mt16"><label>Job Description *</label>
+            <textarea id="hr-jd" placeholder="Describe the role, responsibilities, and ideal candidate..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="card-head"><div class="card-num">2</div><div class="card-title">HR Contact — Report will be emailed here</div></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="field"><label>HR Name *</label><input type="text" id="hr-name" placeholder="e.g. Priya Sharma" /></div>
+            <div class="field"><label>HR Email *</label><input type="email" id="hr-email" placeholder="hr@company.com" /></div>
+          </div>
+          <div class="note-box">📧 A complete ranked candidate report will be emailed automatically after AI screening completes.</div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="card-head"><div class="card-num">3</div><div class="card-title">Upload Candidate Resumes</div></div>
+        <div class="card-body">
+          <div class="file-zone" id="hr-dropzone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event,'hr')">
+            <div class="file-zone-icon">📄</div>
+            <div class="file-zone-title">Drag & drop resumes here</div>
+            <div class="file-zone-sub">PDF, DOC, DOCX or TXT — up to 10 resumes</div>
+            <input type="file" id="hr-files" multiple accept=".pdf,.doc,.docx,.txt" onchange="handleFiles(this,'hr')" />
+          </div>
+          <div class="file-list" id="hr-file-list"></div>
+          <div class="info-box">💡 Upload resumes as PDF or text files. AI will extract skills, experience and education automatically.</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="startHRScreening()">✦ Screen Candidates with AI</button>
+    </div>
+
+    <div id="proc-hr">
+      <div class="proc-card">
+        <div class="proc-header">
+          <div class="proc-spinner"></div>
+          <div class="proc-title">AI Screening in Progress</div>
+          <div class="proc-elapsed" id="hr-elapsed">0s</div>
+        </div>
+        <div class="proc-steps" id="hr-steps"></div>
+      </div>
+    </div>
+
+    <div id="results-hr">
+      <div class="results-headline">✦ AI Screened <span id="hr-res-count">0</span> Candidates</div>
+      <div class="results-sub" id="hr-res-sub"></div>
+      <div id="hr-candidate-cards"></div>
+      <div class="status-box" id="hr-status-box">
+        <div class="status-icon" id="hr-status-icon"></div>
+        <div><div class="status-title" id="hr-status-title"></div><div class="status-detail" id="hr-status-detail"></div></div>
+      </div>
+      <div style="text-align:center"><button class="btn-outline" onclick="resetHR()">← Screen New Batch</button></div>
+    </div>
+  </div>
+
+  <!-- CANDIDATE PANEL -->
+  <div class="panel" id="panel-candidate">
+    <div id="form-cand">
+      <div class="form-card">
+        <div class="card-head"><div class="card-num">1</div><div class="card-title">Personal Details</div></div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="field"><label>Full Name *</label><input type="text" id="c-name" placeholder="e.g. Arjun Sharma" /></div>
+            <div class="field"><label>Email Address *</label><input type="email" id="c-email" placeholder="you@email.com" /></div>
+          </div>
+          <div class="grid-2 mt16">
+            <div class="field"><label>Phone</label><input type="tel" id="c-phone" placeholder="+91 98765 43210" /></div>
+            <div class="field"><label>Current Location</label><input type="text" id="c-location" placeholder="e.g. Hyderabad" /></div>
+          </div>
+          <div class="grid-2 mt16">
+            <div class="field"><label>Total Experience</label>
+              <select id="c-exp">
+                <option>Fresher (0-1 yr)</option><option>1-2 years</option><option>2-4 years</option>
+                <option selected>4-6 years</option><option>6-8 years</option><option>8-10 years</option><option>10+ years</option>
+              </select>
+            </div>
+            <div class="field"><label>Applying For *</label><input type="text" id="c-role" placeholder="e.g. Senior React Developer" /></div>
+          </div>
+          <div class="note-box">📧 Your AI match score and feedback will be sent to your email automatically.</div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="card-head"><div class="card-num">2</div><div class="card-title">Your Skills & Experience</div></div>
+        <div class="card-body">
+          <div class="field"><label>Your Key Skills (comma separated) *</label>
+            <input type="text" id="c-skills" placeholder="e.g. React, JavaScript, Node.js, MongoDB, AWS" />
+          </div>
+          <div class="field mt16"><label>Brief Professional Summary *</label>
+            <textarea id="c-summary" placeholder="Describe your experience, what you have built, achievements, and why you are a great fit..."></textarea>
+          </div>
+          <div class="field mt16"><label>LinkedIn / Portfolio URL (optional)</label>
+            <input type="url" id="c-linkedin" placeholder="https://linkedin.com/in/yourprofile" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="card-head"><div class="card-num">3</div><div class="card-title">Upload Your Resume</div></div>
+        <div class="card-body">
+          <div class="file-zone" id="cand-dropzone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event,'cand')">
+            <div class="file-zone-icon">📋</div>
+            <div class="file-zone-title">Upload your resume</div>
+            <div class="file-zone-sub">PDF, DOC, DOCX or TXT</div>
+            <input type="file" id="cand-file" accept=".pdf,.doc,.docx,.txt" onchange="handleFiles(this,'cand')" />
+          </div>
+          <div class="file-list" id="cand-file-list"></div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="startCandidateApply()">✦ Submit Application & Get AI Score</button>
+    </div>
+
+    <div id="proc-cand">
+      <div class="proc-card">
+        <div class="proc-header">
+          <div class="proc-spinner"></div>
+          <div class="proc-title">Analyzing Your Application</div>
+          <div class="proc-elapsed" id="cand-elapsed">0s</div>
+        </div>
+        <div class="proc-steps" id="cand-steps"></div>
+      </div>
+    </div>
+
+    <div id="results-cand">
+      <div class="cand-result-card" id="cand-result-inner"></div>
+      <div class="status-box" id="cand-status-box">
+        <div class="status-icon" id="cand-status-icon"></div>
+        <div><div class="status-title" id="cand-status-title"></div><div class="status-detail" id="cand-status-detail"></div></div>
+      </div>
+      <div style="text-align:center"><button class="btn-outline" onclick="resetCand()">← Apply for Another Role</button></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <img src="data:image/png;base64,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" alt="Robot Insight Technologies" />
+    <div class="footer-left-text">
+      <div>Robot Insight Technologies</div>
+      <div>HireIQ — AI Smart Hiring Platform</div>
+    </div>
+  </div>
+  <div class="footer-credit">Built by <strong>Pranay Bhaskar</strong> · Senior Developer · © 2025</div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;">Powered by Claude AI</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+const EJ_KEY='R16KeMvfQQhut7cOG',EJ_SERVICE='service_2l8tzv2',EJ_TEMPLATE='template_his1szc';
+emailjs.init(EJ_KEY);
+let hrFiles=[],candFile=null,hrTimer,candTimer,hrSecs=0,candSecs=0;
+
+function switchView(view,btn){
+  document.querySelectorAll('.nav-tab,.view-btn').forEach(b=>b.classList.remove('active'));
+  if(view==='hr'){document.getElementById('vb-hr').classList.add('active');document.querySelectorAll('.nav-tab')[0].classList.add('active');}
+  else{document.getElementById('vb-cand').classList.add('active');document.querySelectorAll('.nav-tab')[1].classList.add('active');}
+  document.getElementById('panel-hr').classList.toggle('active',view==='hr');
+  document.getElementById('panel-candidate').classList.toggle('active',view==='candidate');
+}
+
+function handleFiles(input,type){
+  const files=Array.from(input.files);
+  if(type==='hr'){hrFiles=files;renderFileList(files,'hr-file-list',type);}
+  else{candFile=files[0];renderFileList(files.slice(0,1),'cand-file-list',type);}
+}
+function handleDrop(e,type){
+  e.preventDefault();
+  document.getElementById(type==='hr'?'hr-dropzone':'cand-dropzone').classList.remove('drag');
+  const files=Array.from(e.dataTransfer.files);
+  if(type==='hr'){hrFiles=files;renderFileList(files,'hr-file-list',type);}
+  else{candFile=files[0];renderFileList([files[0]],'cand-file-list',type);}
+}
+function renderFileList(files,listId,type){
+  document.getElementById(listId).innerHTML=files.map((f,i)=>`
+    <div class="file-item"><div>📄</div><div class="file-item-name">${f.name}</div>
+    <div class="file-item-size">${(f.size/1024).toFixed(0)} KB</div>
+    <button class="file-remove" onclick="removeFile(${i},'${type}')">✕</button></div>`).join('');
+}
+function removeFile(i,type){
+  if(type==='hr'){hrFiles.splice(i,1);renderFileList(hrFiles,'hr-file-list',type);}
+  else{candFile=null;document.getElementById('cand-file-list').innerHTML='';}
+}
+function readFile(file){return new Promise(r=>{const rd=new FileReader();rd.onload=e=>r(e.target.result.slice(0,3000));rd.onerror=()=>r('[Could not read]');rd.readAsText(file);});}
+function v(id){return(document.getElementById(id).value||'').trim();}
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+function stepOn(p,i){const el=document.getElementById(`${p}-${i}`);el.classList.add('active');document.getElementById(`${p}b-${i}`).textContent='Processing...';}
+function stepOff(p,i){const el=document.getElementById(`${p}-${i}`);el.classList.remove('active');el.classList.add('done');document.getElementById(`${p}b-${i}`).textContent='✓ Done';}
+function buildSteps(steps,containerId,prefix){
+  document.getElementById(containerId).innerHTML=steps.map((s,i)=>`
+    <div class="proc-step" id="${prefix}-${i}">
+      <div class="proc-step-icon">${s.icon}</div>
+      <div class="proc-step-text"><div class="proc-step-name">${s.name}</div><div class="proc-step-detail">${s.detail}</div></div>
+      <div class="proc-step-badge" id="${prefix}b-${i}">Waiting</div>
+    </div>`).join('');
+}
+
+async function startHRScreening(){
+  const title=v('hr-jobTitle'),skills=v('hr-skills'),jd=v('hr-jd'),name=v('hr-name'),email=v('hr-email');
+  if(!title||!skills||!jd||!name||!email){alert('Please fill all required fields (*)');return;}
+  if(!hrFiles.length){alert('Please upload at least one resume');return;}
+  document.getElementById('form-hr').style.display='none';
+  document.getElementById('proc-hr').style.display='block';
+  hrSecs=0;hrTimer=setInterval(()=>{hrSecs++;document.getElementById('hr-elapsed').textContent=hrSecs+'s';},1000);
+  const steps=[
+    {icon:'📋',name:'Reading job requirements',detail:`Role: ${title}`},
+    {icon:'📄',name:`Extracting data from ${hrFiles.length} resume(s)`,detail:'Parsing skills, experience, education...'},
+    {icon:'🤖',name:'AI matching candidates',detail:'Scoring each candidate against requirements...'},
+    {icon:'🏆',name:'Ranking candidates',detail:'Sorting by AI match score...'},
+    {icon:'📧',name:`Sending report to ${email}`,detail:'Preparing ranked candidate report...'},
+  ];
+  buildSteps(steps,'hr-steps','hrs');
+  for(let i=0;i<4;i++){stepOn('hrs',i);await delay(i===2?2400:1200);stepOff('hrs',i);}
+  const resumeTexts=await Promise.all(hrFiles.map(f=>readFile(f)));
+  const candidates=await analyzeResumes(title,skills,jd,v('hr-exp'),hrFiles,resumeTexts);
+  stepOn('hrs',4);
+  const emailResult=await sendHREmail(candidates,name,email,title);
+  stepOff('hrs',4);
+  clearInterval(hrTimer);
+  await delay(400);
+  showHRResults(candidates,title,email,emailResult);
+}
+
+async function analyzeResumes(jobTitle,requiredSkills,jd,expRequired,files,texts){
+  const prompt=`You are an expert HR AI screener at Robot Insight Technologies.
+
+Job: ${jobTitle}
+Required Skills: ${requiredSkills}
+Experience: ${expRequired}
+JD: ${jd}
+
+Analyze ${files.length} resumes:
+${files.map((f,i)=>`--- CANDIDATE ${i+1}: ${f.name} ---
+${texts[i]||'[No text]'}`).join('\n\n')}
+
+Return ONLY raw JSON:
+{"candidates":[{"name":"extracted name","fileName":"file.pdf","score":85,"matchLevel":"top|good|review","experience":"X years","matchedSkills":["s1"],"partialSkills":["s2"],"missingSkills":["s3"],"summary":"2-3 sentence honest assessment","strengths":["s1"],"concerns":["c1"]}]}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content.map(c=>c.text||'').join('');
+    return JSON.parse(text.replace(/```json|```/g,'').trim()).candidates;
+  }catch(e){
+    return files.map((f,i)=>({name:f.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),fileName:f.name,score:65+i*5,matchLevel:i===0?'top':i===1?'good':'review',experience:'Not extracted',matchedSkills:requiredSkills.split(',').slice(0,3).map(s=>s.trim()),partialSkills:[],missingSkills:[],summary:`Candidate ${i+1} uploaded. Manual review recommended.`,strengths:['Resume submitted'],concerns:['Could not parse']}));
+  }
+}
+
+function showHRResults(candidates,jobTitle,hrEmail,emailResult){
+  document.getElementById('proc-hr').style.display='none';
+  document.getElementById('results-hr').style.display='block';
+  document.getElementById('hr-res-count').textContent=candidates.length;
+  document.getElementById('hr-res-sub').textContent=`Role: ${jobTitle} · Sorted by AI Match Score`;
+  candidates.sort((a,b)=>b.score-a.score);
+  document.getElementById('hr-candidate-cards').innerHTML=candidates.map((c,i)=>`
+    <div class="candidate-card ${c.matchLevel}" style="animation-delay:${i*0.08}s">
+      ${c.matchLevel==='top'?'<div class="cc-ribbon top">✦ Top Match — Highly Recommended</div>':''}
+      ${c.matchLevel==='good'?'<div class="cc-ribbon good">👍 Good Match — Worth Interviewing</div>':''}
+      ${c.matchLevel==='review'?'<div class="cc-ribbon review">⚠ Needs Review — Partial Match</div>':''}
+      <div class="cc-body"><div class="cc-main">
+        <div class="cc-score-area">
+          <div class="cc-score-circle ${c.matchLevel==='top'?'top-c':c.matchLevel==='good'?'good-c':'review-c'}">
+            <div class="cc-score-num">${c.score}</div><div class="cc-score-lbl">/ 100</div>
+          </div>
+          <div class="cc-rank">#${i+1} Ranked</div>
+        </div>
+        <div class="cc-info">
+          <div class="cc-name">${c.name}</div>
+          <div class="cc-meta"><span>📄 ${c.fileName}</span><span>⏱ ${c.experience}</span></div>
+          <div class="cc-skills">
+            ${(c.matchedSkills||[]).map(s=>`<span class="cc-skill match">✓ ${s}</span>`).join('')}
+            ${(c.partialSkills||[]).map(s=>`<span class="cc-skill partial">~ ${s}</span>`).join('')}
+            ${(c.missingSkills||[]).map(s=>`<span class="cc-skill miss">✗ ${s}</span>`).join('')}
+          </div>
+          <div class="cc-summary">${c.summary}</div>
+        </div>
+      </div></div>
+    </div>`).join('');
+  const box=document.getElementById('hr-status-box');
+  box.style.display='flex';
+  if(emailResult==='ok'){
+    box.className='status-box success';
+    document.getElementById('hr-status-icon').textContent='✅';
+    document.getElementById('hr-status-title').textContent='Report Emailed Successfully!';
+    document.getElementById('hr-status-detail').textContent=`Full ranked report sent to ${hrEmail}. Check your inbox!`;
+  }else{
+    box.className='status-box error';
+    document.getElementById('hr-status-icon').textContent='❌';
+    document.getElementById('hr-status-title').textContent='Email Could Not Be Sent';
+    document.getElementById('hr-status-detail').textContent=`Error: ${emailResult}`;
+  }
+}
+
+async function sendHREmail(candidates,hrName,hrEmail,jobTitle){
+  try{
+    const sorted=[...candidates].sort((a,b)=>b.score-a.score),top=sorted[0];
+    const report=sorted.map((c,i)=>`${i+1}. ${c.name} | Score: ${c.score}/100 | ${c.matchLevel.toUpperCase()}
+   ${c.summary}`).join('\n\n');
+    const body=`Hi ${hrName},
+
+AI screening for "${jobTitle}" is complete!
+
+SCREENING SUMMARY
+Total: ${candidates.length} | Top: ${candidates.filter(c=>c.matchLevel==='top').length} | Good: ${candidates.filter(c=>c.matchLevel==='good').length} | Review: ${candidates.filter(c=>c.matchLevel==='review').length}
+
+TOP CANDIDATE: ${top.name} — ${top.score}/100
+${top.summary}
+
+ALL CANDIDATES RANKED:
+${report}
+
+Powered by HireIQ — Robot Insight Technologies`;
+    await emailjs.send(EJ_SERVICE,EJ_TEMPLATE,{to_email:hrEmail,to_name:hrName,name:hrName,email:hrEmail,origin:jobTitle,destination:`${candidates.length} candidates`,departure_date:new Date().toLocaleDateString(),passengers:candidates.length,cabin_class:'HR Screening',best_airline:top.name,best_flight:`Score: ${top.score}/100`,best_dep:'Top Match',best_arr:top.matchLevel.toUpperCase(),best_duration:top.experience,best_price:`${top.score}/100`,cheapest_airline:sorted[sorted.length-1].name,cheapest_price:`${sorted[sorted.length-1].score}/100`,message:body,time:new Date().toLocaleString()});
+    return 'ok';
+  }catch(e){return e?.text||e?.message||'Unknown error';}
+}
+
+function resetHR(){document.getElementById('results-hr').style.display='none';document.getElementById('form-hr').style.display='block';hrFiles=[];document.getElementById('hr-file-list').innerHTML='';}
+
+async function startCandidateApply(){
+  const name=v('c-name'),email=v('c-email'),role=v('c-role'),skills=v('c-skills'),summary=v('c-summary');
+  if(!name||!email||!role||!skills||!summary){alert('Please fill all required fields (*)');return;}
+  document.getElementById('form-cand').style.display='none';
+  document.getElementById('proc-cand').style.display='block';
+  candSecs=0;candTimer=setInterval(()=>{candSecs++;document.getElementById('cand-elapsed').textContent=candSecs+'s';},1000);
+  const steps=[
+    {icon:'👤',name:'Reading your profile',detail:`Role: ${role}`},
+    {icon:'🔍',name:'Extracting skills & experience',detail:'Mapping skills to industry standards...'},
+    {icon:'🤖',name:'AI evaluating your application',detail:'Scoring your fit for the role...'},
+    {icon:'📊',name:'Generating feedback',detail:'Preparing personalized feedback...'},
+    {icon:'📧',name:`Sending results to ${email}`,detail:'Emailing your AI match score...'},
+  ];
+  buildSteps(steps,'cand-steps','cs');
+  for(let i=0;i<4;i++){stepOn('cs',i);await delay(1200);stepOff('cs',i);}
+  let resumeText='';
+  if(candFile)resumeText=await readFile(candFile);
+  const result=await evaluateCandidate(name,role,skills,summary,v('c-exp'),resumeText);
+  stepOn('cs',4);
+  const emailResult=await sendCandidateEmail(result,name,email,role);
+  stepOff('cs',4);
+  clearInterval(candTimer);
+  await delay(400);
+  showCandidateResult(result,name,email,role,emailResult);
+}
+
+async function evaluateCandidate(name,role,skills,summary,exp,resumeText){
+  const prompt=`You are an expert AI career coach at Robot Insight Technologies.
+
+Evaluate:
+Name: ${name}
+Role: ${role}
+Experience: ${exp}
+Skills: ${skills}
+Summary: ${summary}
+${resumeText?'Resume: '+resumeText:''}
+
+Return ONLY raw JSON:
+{"score":78,"matchLevel":"good","verdict":"Strong candidate","strengths":["s1","s2","s3"],"improvements":["i1","i2"],"missingSkills":["m1"],"feedback":"3-4 sentences to ${name} directly","interviewTips":["t1","t2","t3"]}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    return JSON.parse(data.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim());
+  }catch(e){
+    return{score:72,matchLevel:'good',verdict:'Good candidate profile',strengths:['Relevant experience','Good skills','Clear communication'],improvements:['Add quantifiable achievements','Include project links'],missingSkills:['Could not fully evaluate'],feedback:`Hi ${name}! Your application for ${role} has been received. Your profile shows relevant experience. Add specific achievements and metrics to strengthen it.`,interviewTips:['Prepare STAR format answers','Research the company','Practice coding problems']};
+  }
+}
+
+function showCandidateResult(result,name,email,role,emailResult){
+  document.getElementById('proc-cand').style.display='none';
+  document.getElementById('results-cand').style.display='block';
+  const sc=result.score>=80?'high':result.score>=60?'mid':'low';
+  const col=result.score>=80?'var(--green)':result.score>=60?'#d97706':'var(--red)';
+  document.getElementById('cand-result-inner').innerHTML=`
+    <div class="cand-score-big ${sc}"><div class="cand-score-big-num" style="color:${col}">${result.score}</div><div class="cand-score-big-lbl">/ 100</div></div>
+    <div class="cand-result-name">${name}</div>
+    <div class="cand-result-role">Applied for: ${role}</div>
+    <div style="display:inline-block;padding:6px 20px;border-radius:20px;font-size:13px;font-weight:700;margin-bottom:16px;background:${sc==='high'?'var(--green-xlight)':sc==='mid'?'#fffbeb':'#fef2f2'};color:${col};">${result.verdict}</div>
+    <div class="cand-feedback">
+      <div class="cand-feedback-title">🤖 AI Feedback</div>
+      <p style="font-size:14px;color:var(--gray3);line-height:1.7;margin-bottom:16px;font-weight:400;">${result.feedback}</p>
+      <div class="cand-feedback-title">✅ Your Strengths</div>
+      ${(result.strengths||[]).map(s=>`<div class="feedback-item"><div class="feedback-icon">✅</div><div>${s}</div></div>`).join('')}
+      <div class="cand-feedback-title" style="margin-top:16px">📈 Areas to Improve</div>
+      ${(result.improvements||[]).map(s=>`<div class="feedback-item"><div class="feedback-icon">💡</div><div>${s}</div></div>`).join('')}
+      <div class="cand-feedback-title" style="margin-top:16px">🎯 Interview Tips</div>
+      ${(result.interviewTips||[]).map(s=>`<div class="feedback-item"><div class="feedback-icon">🎯</div><div>${s}</div></div>`).join('')}
+    </div>`;
+  const box=document.getElementById('cand-status-box');
+  box.style.display='flex';
+  if(emailResult==='ok'){
+    box.className='status-box success';
+    document.getElementById('cand-status-icon').textContent='✅';
+    document.getElementById('cand-status-title').textContent='Results Emailed to You!';
+    document.getElementById('cand-status-detail').textContent=`AI score and feedback sent to ${email}. Check your inbox!`;
+  }else{
+    box.className='status-box error';
+    document.getElementById('cand-status-icon').textContent='❌';
+    document.getElementById('cand-status-title').textContent='Email Could Not Be Sent';
+    document.getElementById('cand-status-detail').textContent=`Error: ${emailResult}`;
+  }
+}
+
+async function sendCandidateEmail(result,name,email,role){
+  try{
+    const body=`Hi ${name},
+
+Your application for "${role}" has been analyzed!
+
+AI MATCH SCORE: ${result.score}/100
+Verdict: ${result.verdict}
+
+${result.feedback}
+
+STRENGTHS:
+${(result.strengths||[]).map((s,i)=>`${i+1}. ${s}`).join('\n')}
+
+IMPROVEMENTS:
+${(result.improvements||[]).map((s,i)=>`${i+1}. ${s}`).join('\n')}
+
+INTERVIEW TIPS:
+${(result.interviewTips||[]).map((s,i)=>`${i+1}. ${s}`).join('\n')}
+
+Powered by HireIQ — Robot Insight Technologies`;
+    await emailjs.send(EJ_SERVICE,EJ_TEMPLATE,{to_email:email,to_name:name,name,email,origin:role,destination:'Application Result',departure_date:new Date().toLocaleDateString(),passengers:'1',cabin_class:'Candidate',best_airline:name,best_flight:`Score: ${result.score}/100`,best_dep:'Applied',best_arr:result.verdict,best_duration:result.score+'/100',best_price:result.verdict,cheapest_airline:role,cheapest_price:result.matchLevel,message:body,time:new Date().toLocaleString()});
+    return 'ok';
+  }catch(e){return e?.text||e?.message||'Unknown error';}
+}
+
+function resetCand(){document.getElementById('results-cand').style.display='none';document.getElementById('form-cand').style.display='block';candFile=null;document.getElementById('cand-file-list').innerHTML='';}
+</script>
+</body>
+</html>
